@@ -1,0 +1,19 @@
+<?php
+$l=file("input.txt",FILE_IGNORE_NEW_LINES);
+$p=50;$z=0;
+foreach($l as $r){
+$d=+$r[1].substr($r,2);
+if($r[0]=='R'){
+$a=(100-$p)%100;
+if($a==0)$z+=intdiv($d,100);
+else if($d>=$a)$z+=1+intdiv($d-$a,100);
+$p=($p+$d)%100;
+}else{
+$a=$p%100;
+if($a==0)$z+=intdiv($d,100);
+else if($d>=$a)$z+=1+intdiv($d-$a,100);
+$p=($p-$d)%100;
+if($p<0)$p+=100;
+}
+}
+echo $z;
