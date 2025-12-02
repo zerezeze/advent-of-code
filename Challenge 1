@@ -1,0 +1,9 @@
+const fs = require("fs"),
+l = fs.readFileSync("input.txt","utf8").trim().split("\n");
+let p = 50, z = 0;
+for (const r of l) {
+  p = (p + (r[0]=="L" ? -1 : 1) * +r.slice(1)) % 100;
+  if (p < 0) p += 100;
+  if (p == 0) z++;
+}
+console.log(z);
