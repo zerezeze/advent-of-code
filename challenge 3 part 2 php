@@ -1,0 +1,57 @@
+<?php
+
+// Lê cada linha do arquivo, cada linha é um conjunto de baterias
+$linhas = file("input.txt", FILE_IGNORE_NEW_LINES);
+
+$total = 0;
+
+foreach ($linhas as $linha) {
+
+    // Precisamos escolher exatamente 12 dígitos
+    $restantes = 12;
+
+    // Começamos procurando a partir do índice 0 da linha
+    $indiceAtual = 0;
+
+    // Aqui vamos construir o número final de 12 dígitos
+    $resultado = "";
+
+    while ($restantes > 0) {
+
+        $melhorDigito = "0";
+        $posicaoMelhor = $indiceAtual;
+
+        /**
+         * Explicação:
+         * Ainda precisamos pegar `$restantes` dígitos.
+         * Portanto, só podemos procurar até a posição:
+         *
+         * (tamanho da linha - restantes)
+         *
+         * Isso garante que sempre será possível completar 12 dígitos.
+         */
+        $limite = strlen($linha) - $restantes;
+
+        // Procuramos o maior dígito possível nesse intervalo
+        for ($j = $indiceAtual; $j <= $limite; $j++) {
+            if ($linha[$j] > $melhorDigito) {
+                $melhorDigito = $linha[$j];
+                $posicaoMelhor = $j;
+            }
+        }
+
+        // Adiciona o melhor dígito encontrado ao resultado final
+        $resultado .= $melhorDigito;
+
+        // Avança para depois do dígito escolhido
+        $indiceAtual = $posicaoMelhor + 1;
+
+        // Agora falta pegar 1 dígito a menos
+        $restantes--;
+    }
+
+    // Soma o número de 12 dígitos convertido para inteiro
+    $total += intval($resultado);
+}
+
+echo "Potência total: " . $total . PHP_EOL;
